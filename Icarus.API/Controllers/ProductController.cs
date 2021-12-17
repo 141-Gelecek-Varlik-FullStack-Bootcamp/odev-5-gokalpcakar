@@ -10,11 +10,11 @@ namespace Icarus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ProductController : ControllerBase
+    public class ProductController : BaseController
     {
         // Burada servisi çağırıyoruz.
         private readonly IProductService productService;
-        public ProductController(IProductService _productService)
+        public ProductController(IProductService _productService, IMemoryCache _memoryCache) : base(_memoryCache)
         {
             productService = _productService;
         }
@@ -26,10 +26,35 @@ namespace Icarus.API.Controllers
             return productService.GetProducts();
         }
 
+        // Sıralanmış ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
+        [HttpGet]
+        [Route("SortBy")]
+        public General<ListDeleteViewModel> SortProducts([FromQuery] string sortingParameter)
+        {
+            return productService.SortProducts(sortingParameter);
+        }
+
+        // Filtrelenmiş ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
+        [HttpGet]
+        [Route("FilterBy")]
+        public General<ListDeleteViewModel> FilterProducts([FromQuery] string filterByName)
+        {
+            return productService.FilterProducts(filterByName);
+        }
+
+        // Ürünlerin sayfalanacağı metodun servis katmanından çağırıldığı kısım
+        [HttpGet]
+        [Route("Pagination")]
+        public General<ListDeleteViewModel> ProductPagination([FromQuery] int productByPage, [FromQuery] int displayPageNo)
+        {
+            return productService.ProductPagination(productByPage, displayPageNo);
+        }
+
         // Ürün ekleme metodunun servis katmanından çağırıldığı kısım
         [HttpPost]
         public General<InsertProductViewModel> Insert([FromBody] InsertProductViewModel newProduct)
         {
+            newProduct.Iuser = CurrentUser.Id;
             return productService.Insert(newProduct);
         }
 
