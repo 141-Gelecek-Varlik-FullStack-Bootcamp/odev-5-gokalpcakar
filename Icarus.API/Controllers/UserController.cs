@@ -28,6 +28,7 @@ namespace Icarus.API.Controllers
 
         // Kullanıcı ekleme metodunun servis katmanından çağırıldığı kısım
         [HttpPost]
+        [ServiceFilter(typeof(LoginFilter))]
         public General<UserViewModel> Insert([FromBody] UserViewModel newUser)
         {
             return userService.Insert(newUser);
