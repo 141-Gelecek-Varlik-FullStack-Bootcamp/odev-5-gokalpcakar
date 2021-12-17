@@ -1,8 +1,10 @@
-﻿using Icarus.Model;
+﻿using Icarus.API.Infrastructure;
+using Icarus.Model;
 using Icarus.Model.User;
 using Icarus.Service.User;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Icarus.API.Controllers
 {
@@ -12,7 +14,6 @@ namespace Icarus.API.Controllers
     {
         // Burada servisi çağırıyoruz
         private readonly IUserService userService;
-
         public UserController(IUserService _userService)
         {
             userService = _userService;
@@ -23,13 +24,6 @@ namespace Icarus.API.Controllers
         public General<UserViewModel> GetUsers()
         {
             return userService.GetUsers();
-        }
-
-        // Kullanıcı giriş metodunun servis katmanından çağırıldığı kısım
-        [HttpPost("login")]
-        public General<LoginViewModel> Login([FromBody] LoginViewModel user)
-        {
-            return userService.Login(user);
         }
 
         // Kullanıcı ekleme metodunun servis katmanından çağırıldığı kısım

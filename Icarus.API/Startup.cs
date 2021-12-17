@@ -40,6 +40,8 @@ namespace Icarus.API
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProductService, ProductService>();
 
+            services.AddMemoryCache();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

@@ -1,8 +1,10 @@
-﻿using Icarus.Model;
+﻿using Icarus.API.Infrastructure;
+using Icarus.Model;
 using Icarus.Model.Product;
 using Icarus.Service.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Memory;
 
 namespace Icarus.API.Controllers
 {

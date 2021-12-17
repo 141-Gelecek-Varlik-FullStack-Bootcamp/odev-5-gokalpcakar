@@ -19,21 +19,21 @@ namespace Icarus.Service.User
             mapper = _mapper;
         }
         // Kullanıcı girişi işleminin gerçekleştirildiği metot
-        public General<LoginViewModel> Login(LoginViewModel user)
+        public General<UserViewModel> Login(LoginViewModel loginUser)
         {
-            var result = new General<LoginViewModel>();
-            var model = mapper.Map<Icarus.DB.Entities.User>(user);
+            General<UserViewModel> result = new();
 
             using (var context = new IcarusContext())
             {
-                // Kullanıcı adı, IsActive, IsDeleted ve şifre alanı kontrol ediliyor
-                // gerekli şartlar sağlandıysa IsSuccess true sağlanmadıysa false dönüyor
-                result.Entity = mapper.Map<LoginViewModel>(model);
-                result.IsSuccess = context.User.Any(
-                    x => x.UserName == user.UserName &&
-                                       x.IsActive &&
-                                       !x.IsDeleted &&
-                                       x.Password == user.Password);
+                var data = context.User.FirstOrDefault(x => !x.IsDeleted &&
+                                                x.IsActive &&
+                                                x.UserName == loginUser.UserName &&
+                                                x.Password == loginUser.Password);
+                if (data is not null)
+                {
+                    result.IsSuccess = true;
+                    result.Entity = mapper.Map<UserViewModel>(data);
+                }
             }
 
             return result;
@@ -66,17 +66,25 @@ namespace Icarus.Service.User
         // Kullanıcı ekleme işleminin gerçekleştirildiği metot
         public General<UserViewModel> Insert(UserViewModel newUser)
         {
-            var result = new General<UserViewModel>();
-            var model = mapper.Map<Icarus.DB.Entities.User>(newUser);
+            var result = new General<UserViewModel>() { IsSuccess = false };
 
-            using (var context = new IcarusContext())
+            try
             {
-                model.Idate = DateTime.Now;
-                context.User.Add(model);
-                context.SaveChanges();
+                var model = mapper.Map<Icarus.DB.Entities.User>(newUser);
 
-                result.Entity = mapper.Map<UserViewModel>(model);
-                result.IsSuccess = true;
+                using (var context = new IcarusContext())
+                {
+                    model.Idate = DateTime.Now;
+                    context.User.Add(model);
+                    context.SaveChanges();
+
+                    result.Entity = mapper.Map<UserViewModel>(model);
+                    result.IsSuccess = true;
+                }
+            }
+            catch (Exception)
+            {
+                result.ExceptionMessage = "Beklenmeyen bir hata oluştu";
             }
 
             return result;

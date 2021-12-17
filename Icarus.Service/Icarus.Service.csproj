@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Icarus.Model\Icarus.Model.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Product\" />
+  </ItemGroup>
+
 </Project>

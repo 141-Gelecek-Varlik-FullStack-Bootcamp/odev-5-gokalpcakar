@@ -3,6 +3,7 @@ using Icarus.DB.Entities.DataContext;
 using Icarus.Model;
 using Icarus.Model.Extensions;
 using Icarus.Model.Product;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -50,31 +51,39 @@ namespace Icarus.Service.Product
         public General<InsertProductViewModel> Insert(InsertProductViewModel newProduct)
         {
             var result = new General<InsertProductViewModel>();
-            var model = mapper.Map<Icarus.DB.Entities.Product>(newProduct);
 
-            using (var context = new IcarusContext())
+            try
             {
-                // Eğer gelen modeldeki id veritabanındaki kullanıcılardan birinin id'si ise,
-                // kullanıcı login işlemini gerçekleştirmiş ve IsDeleted değeri false ise
-                // ekleme işlemini gerçekleştirebilecek yetkisi oluyor
-                var isAuth = context.User.Any(x => x.Id == model.Iuser &&
-                                                           x.IsActive &&
-                                                           !x.IsDeleted);
+                var model = mapper.Map<Icarus.DB.Entities.Product>(newProduct);
 
-                // Kullanıcı yetkiliyse ekleme gerçekleşiyor değilse aşağıdaki mesajı dönüyor
-                if (isAuth)
+                using (var context = new IcarusContext())
                 {
-                    model.Idate = DateTime.Now;
-                    context.Product.Add(model);
-                    context.SaveChanges();
+                    // Eğer gelen modeldeki id veritabanındaki kullanıcılardan birinin id'si ise,
+                    // kullanıcı login işlemini gerçekleştirmiş ve IsDeleted değeri false ise
+                    // ekleme işlemini gerçekleştirebilecek yetkisi oluyor
+                    var isAuth = context.User.Any(x => x.Id == model.Iuser &&
+                                                               x.IsActive &&
+                                                               !x.IsDeleted);
 
-                    result.Entity = mapper.Map<InsertProductViewModel>(model);
-                    result.IsSuccess = true;
+                    // Kullanıcı yetkiliyse ekleme gerçekleşiyor değilse aşağıdaki mesajı dönüyor
+                    if (isAuth)
+                    {
+                        model.Idate = DateTime.Now;
+                        context.Product.Add(model);
+                        context.SaveChanges();
+
+                        result.Entity = mapper.Map<InsertProductViewModel>(model);
+                        result.IsSuccess = true;
+                    }
+                    else
+                    {
+                        result.ExceptionMessage = "Ürün ekleme yetkiniz bulunmamaktadır.";
+                    }
                 }
-                else
-                {
-                    result.ExceptionMessage = "Ürün ekleme yetkiniz bulunmamaktadır.";
-                }
+            }
+            catch (Exception)
+            {
+                result.ExceptionMessage = "Ürün ekleme işlemi başarısızlıkla sonuçlandı";
             }
 
             return result;
