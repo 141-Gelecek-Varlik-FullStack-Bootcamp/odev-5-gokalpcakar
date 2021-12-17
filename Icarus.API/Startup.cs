@@ -42,6 +42,8 @@ namespace Icarus.API
 
             services.AddMemoryCache();
 
+            services.AddScoped<LoginFilter>();
+
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {

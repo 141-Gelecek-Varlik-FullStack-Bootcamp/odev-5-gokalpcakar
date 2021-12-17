@@ -12,6 +12,9 @@ namespace Icarus.Service.Product
     public interface IProductService
     {
         public General<ListDeleteViewModel> GetProducts();
+        public General<ListDeleteViewModel> SortProducts(string sortingParameter);
+        public General<ListDeleteViewModel> FilterProducts(string filterByName);
+        public General<ListDeleteViewModel> ProductPagination(int productByPage, int displayPageNo);
         public General<InsertProductViewModel> Insert(InsertProductViewModel newProduct);
         public General<UpdateProductViewModel> Update(int id, UpdateProductViewModel product);
         public General<ListDeleteViewModel> Delete(int id);
