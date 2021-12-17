@@ -23,7 +23,7 @@ namespace Icarus.API.Controllers
 
         // Tüm ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
         [HttpGet]
-        public General<ListDeleteViewModel> GetProducts()
+        public General<ProductViewModel> GetProducts()
         {
             return productService.GetProducts();
         }
@@ -31,7 +31,7 @@ namespace Icarus.API.Controllers
         // Sıralanmış ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
         [HttpGet]
         [Route("SortBy")]
-        public General<ListDeleteViewModel> SortProducts([FromQuery] string sortingParameter)
+        public General<ProductViewModel> SortProducts([FromQuery] string sortingParameter)
         {
             return productService.SortProducts(sortingParameter);
         }
@@ -39,7 +39,7 @@ namespace Icarus.API.Controllers
         // Filtrelenmiş ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
         [HttpGet]
         [Route("FilterBy")]
-        public General<ListDeleteViewModel> FilterProducts([FromQuery] string filterByName)
+        public General<ProductViewModel> FilterProducts([FromQuery] string filterByName)
         {
             return productService.FilterProducts(filterByName);
         }
@@ -47,7 +47,7 @@ namespace Icarus.API.Controllers
         // Ürünlerin sayfalanacağı metodun servis katmanından çağırıldığı kısım
         [HttpGet]
         [Route("Pagination")]
-        public General<ListDeleteViewModel> ProductPagination([FromQuery] int productByPage, [FromQuery] int displayPageNo)
+        public General<ProductViewModel> ProductPagination([FromQuery] int productByPage, [FromQuery] int displayPageNo)
         {
             return productService.ProductPagination(productByPage, displayPageNo);
         }
@@ -70,7 +70,7 @@ namespace Icarus.API.Controllers
 
         // Ürün silme metodunun servis katmanından çağırıldığı kısım
         [HttpDelete("{id}")]
-        public General<ListDeleteViewModel> Delete(int id)
+        public General<ProductViewModel> Delete(int id)
         {
             return productService.Delete(id);
         }

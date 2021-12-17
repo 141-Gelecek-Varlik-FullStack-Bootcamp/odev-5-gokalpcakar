@@ -11,12 +11,12 @@ namespace Icarus.Service.Product
     // ProductService class'ında kullanılacak metotları burada tanımladık
     public interface IProductService
     {
-        public General<ListDeleteViewModel> GetProducts();
-        public General<ListDeleteViewModel> SortProducts(string sortingParameter);
-        public General<ListDeleteViewModel> FilterProducts(string filterByName);
-        public General<ListDeleteViewModel> ProductPagination(int productByPage, int displayPageNo);
+        public General<ProductViewModel> GetProducts();
+        public General<ProductViewModel> SortProducts(string sortingParameter);
+        public General<ProductViewModel> FilterProducts(string filterByName);
+        public General<ProductViewModel> ProductPagination(int productByPage, int displayPageNo);
         public General<InsertProductViewModel> Insert(InsertProductViewModel newProduct);
         public General<UpdateProductViewModel> Update(int id, UpdateProductViewModel product);
-        public General<ListDeleteViewModel> Delete(int id);
+        public General<ProductViewModel> Delete(int id);
     }
 }

@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Icarus.Model.Product
 {
-    // Ürünlerin silme ve listelemesinde kullanılacak ViewModel
-    public class ListDeleteViewModel
+    // Genel ürün işlemlerinde kullanılacak ViewModel
+    public class ProductViewModel
     {
         public string Name { get; set; }
         public string DisplayName { get; set; }

@@ -13,9 +13,6 @@ namespace Icarus.Model.Product
         [Required(ErrorMessage = "Kategori bilgisi girilmelidir.")]
         public int CategoryId { get; set; }
 
-        public DateTime ULondonDate { get; set; }
-        public DateTime UTokyoDate { get; set; }
-
         [Required(ErrorMessage = "Kullanıcı bilgisi girilmelidir.")]
         public int Iuser { get; set; }
 
