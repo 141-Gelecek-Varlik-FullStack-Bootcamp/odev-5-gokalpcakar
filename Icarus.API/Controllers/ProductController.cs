@@ -10,6 +10,8 @@ namespace Icarus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    // LoginFilter tüm controller'a uygulandı
+    [ServiceFilter(typeof(LoginFilter))]
     public class ProductController : BaseController
     {
         // Burada servisi çağırıyoruz.
@@ -52,16 +54,15 @@ namespace Icarus.API.Controllers
 
         // Ürün ekleme metodunun servis katmanından çağırıldığı kısım
         [HttpPost]
-        [ServiceFilter(typeof(LoginFilter))]
         public General<InsertProductViewModel> Insert([FromBody] InsertProductViewModel newProduct)
         {
+            // ekleyen kullanıcı şuanda giriş yapmış kullanıcı olarak atanıyor
             newProduct.Iuser = CurrentUser.Id;
             return productService.Insert(newProduct);
         }
 
         // Ürün güncelleme metodunun servis katmanından çağırıldığı kısım
         [HttpPut("{id}")]
-        [ServiceFilter(typeof(LoginFilter))]
         public General<UpdateProductViewModel> Update(int id, [FromBody] UpdateProductViewModel product)
         {
             return productService.Update(id, product);
@@ -69,7 +70,6 @@ namespace Icarus.API.Controllers
 
         // Ürün silme metodunun servis katmanından çağırıldığı kısım
         [HttpDelete("{id}")]
-        [ServiceFilter(typeof(LoginFilter))]
         public General<ListDeleteViewModel> Delete(int id)
         {
             return productService.Delete(id);

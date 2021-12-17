@@ -46,6 +46,8 @@ namespace Icarus.Service.Product
 
             return result;
         }
+
+        // Sıralama metodu neye göre sıralama yapacağına dair parametre alıyor
         public General<ListDeleteViewModel> SortProducts(string sortingParameter)
         {
             var result = new General<ListDeleteViewModel>();
@@ -73,6 +75,8 @@ namespace Icarus.Service.Product
                     case "DescendingInsertDate":
                         products = products.OrderByDescending(p => p.Idate);
                         break;
+                    // Eğer yukarıdaki değerlere göre sıralama yapılmayacaksa 
+                    // varsayılan olarak eklenme tarihine göre sıralama işlemi gerçekleştiriliyor
                     default:
                         products = products.OrderBy(p => p.Idate);
                         break;
@@ -84,6 +88,7 @@ namespace Icarus.Service.Product
 
             return result;
         }
+        // Ürün adlarının ne ile başladığına göre filtreleme yapan metodumuz
         public General<ListDeleteViewModel> FilterProducts(string filterByName)
         {
             var result = new General<ListDeleteViewModel>();
@@ -107,6 +112,8 @@ namespace Icarus.Service.Product
 
             return result;
         }
+        // Ürünlerin sayfalama işleminin gerçekleştirildiği metot
+        // Parametre olarak sayfa başına ürün sayısı ve sayfa numarasını alıyor
         public General<ListDeleteViewModel> ProductPagination(int productByPage, int displayPageNo)
         {
             var result = new General<ListDeleteViewModel>();
@@ -119,8 +126,11 @@ namespace Icarus.Service.Product
             {
                 using (var context = new IcarusContext())
                 {
+                    // toplam ürün sayısı alınıyor
                     _totalCount = context.Product.Count();
 
+                    // Eğer sayfa başına ürün sayısı 1'den küçük ya da toplam üründen fazlaysa
+                    // aşağıdaki mesaj dönüyor
                     if (productByPage < 1 || productByPage > _totalCount)
                     {
                         result.ExceptionMessage = $"Lütfen 1 ile {_totalCount} arasında bir değer giriniz";
@@ -129,11 +139,14 @@ namespace Icarus.Service.Product
                     _totalPage = _totalCount / productByPage;
                     remaining = _totalCount % productByPage;
 
+                    // Eğer sayfa başına ürün, toplam ürüne tam bölünmüyorsa
+                    // Kalan ürünler de ekleniyor
                     if (remaining != 0)
                     {
                         _totalPage += remaining;
                     }
 
+                    // Girilen parametrelere göre sayfalama gerçekleştiriliyor
                     var _products = context.Product
                                             .Where(x => !x.IsDeleted)
                                             .OrderBy(i => i.Id)

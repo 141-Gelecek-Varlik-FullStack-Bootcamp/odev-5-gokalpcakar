@@ -11,6 +11,7 @@ namespace Icarus.API.Infrastructure
         {
             memoryCache = _memoryCache;
         }
+        // GetCurrentUser metodunu erişilebilir yapıyoruz
         public UserViewModel CurrentUser
         {
             get
@@ -19,6 +20,7 @@ namespace Icarus.API.Infrastructure
             }
         }
 
+        // giriş yapmış kullanıcıyı dönüyoruz
         private UserViewModel GetCurrentUser()
         {
             var response = new UserViewModel();

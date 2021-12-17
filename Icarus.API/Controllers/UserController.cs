@@ -28,6 +28,7 @@ namespace Icarus.API.Controllers
 
         // Kullanıcı ekleme metodunun servis katmanından çağırıldığı kısım
         [HttpPost]
+        // Sadece giriş işlemi yapmış bir kullanıcı, kullanıcı ekleme işlemini gerçekleştirebiliyor
         [ServiceFilter(typeof(LoginFilter))]
         public General<UserViewModel> Insert([FromBody] UserViewModel newUser)
         {

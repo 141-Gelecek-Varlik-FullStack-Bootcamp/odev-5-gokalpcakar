@@ -20,6 +20,7 @@ namespace Icarus.API.Infrastructure
 
         public void OnActionExecuting(ActionExecutingContext context)
         {
+            // Kullanıcı giriş yapmamış ise 401 durum koduyla aşağıdaki mesajı dönüyoruz
             if (!memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
             {
                 context.Result = new UnauthorizedObjectResult("Lütfen giriş yapınız");
