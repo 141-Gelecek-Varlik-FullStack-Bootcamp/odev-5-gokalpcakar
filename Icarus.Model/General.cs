@@ -16,8 +16,8 @@ namespace Icarus.Model
         public bool IsSuccess { get; set; }
         public T Entity { get; set; }
         public List<T> List { get; set; }
-        public int TotalCount { get; set; }
-        public int totalPage { get; set; }
+        public decimal TotalCount { get; set; }
+        public decimal totalPage { get; set; }
         public string ExceptionMessage { get; set; }
         public string SuccessfulMessage { get; set; }
     }

@@ -50,9 +50,8 @@ namespace Icarus.Service.Product
         {
             var result = new General<ProductViewModel>();
 
-            int _totalCount = 0;
-            int _totalPage = 0;
-            int remaining = 0;
+            decimal _totalCount = 0;
+            decimal _totalPage = 0;
 
             try
             {
@@ -60,22 +59,13 @@ namespace Icarus.Service.Product
                 {
                     // toplam ürün sayısı alınıyor
                     _totalCount = context.Product.Count();
+                    _totalPage = Math.Ceiling(_totalCount / productByPage);
 
                     // Eğer sayfa başına ürün sayısı 1'den küçük ya da toplam üründen fazlaysa
                     // aşağıdaki mesaj dönüyor
                     if (productByPage < 1 || productByPage > _totalCount)
                     {
                         result.ExceptionMessage = $"Lütfen 1 ile {_totalCount} arasında bir değer giriniz";
-                    }
-
-                    _totalPage = _totalCount / productByPage;
-                    remaining = _totalCount % productByPage;
-
-                    // Eğer sayfa başına ürün, toplam ürüne tam bölünmüyorsa
-                    // Kalan ürünler de ekleniyor
-                    if (remaining != 0)
-                    {
-                        _totalPage += remaining;
                     }
 
                     // Girilen parametrelere göre sayfalama gerçekleştiriliyor
