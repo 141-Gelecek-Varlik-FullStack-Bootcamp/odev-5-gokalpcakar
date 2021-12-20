@@ -1,5 +1,9 @@
 # Gelecek Varlik FullStack Bootcamp Dorduncu Odevi
 
+### Bu ödevde n-tier mimarisi kullanilmis olup, icerisinde CRUD islemlerinin yani sira siralama, filtreleme ve sayfalama islemleri gerceklestirilmistir .
+
+-------------------------------------------------------
+
 - API, Model, DB ve Service katmanlari kullanildi.
 - Extension Model katmaninda olusturuldu.
 - CRUD islemleri kullanici ve urun icin gerceklestirildi.
