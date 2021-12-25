@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net5.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" Version="10.0.4" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Icarus.API\Icarus.API.csproj" />
+    <ProjectReference Include="..\Icarus.Model\Icarus.Model.csproj" />
+    <ProjectReference Include="..\Icarus.Service\Icarus.Service.csproj" />
+  </ItemGroup>
+
+</Project>

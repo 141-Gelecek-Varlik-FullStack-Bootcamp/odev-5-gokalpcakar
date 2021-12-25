@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.DB", "Icarus.DB\Icar
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Service", "Icarus.Service\Icarus.Service.csproj", "{87C36E21-5913-4694-901E-B3903C8A98F2}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Web", "Icarus.Web\Icarus.Web.csproj", "{3167484B-D4E7-4799-B138-406E041C7A45}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{87C36E21-5913-4694-901E-B3903C8A98F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{87C36E21-5913-4694-901E-B3903C8A98F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{87C36E21-5913-4694-901E-B3903C8A98F2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3167484B-D4E7-4799-B138-406E041C7A45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3167484B-D4E7-4799-B138-406E041C7A45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3167484B-D4E7-4799-B138-406E041C7A45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3167484B-D4E7-4799-B138-406E041C7A45}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

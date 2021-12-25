@@ -1,0 +1,40 @@
+﻿
+@using (Html.BeginForm("InsertProduct", "Home", FormMethod.Post))
+{
+    <div class="mb-3">
+        <label for="CategoryId" class="form-label">Category</label>
+        <input name="CategoryId" type="text" class="form-control" id="CategoryId" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="Iuser" class="form-label">User</label>
+        <input name="Iuser" type="text" class="form-control" id="Iuser" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input name="Name" type="text" class="form-control" id="Name" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="DisplayName" class="form-label">DisplayName</label>
+        <input name="DisplayName" type="text" class="form-control" id="DisplayName" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="Description" class="form-label">Description</label>
+        <input name="Description" type="text" class="form-control" id="Description" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="Price" class="form-label">Price</label>
+        <input name="Price" type="text" class="form-control" id="Price" aria-describedby="emailHelp">
+    </div>
+
+    <div class="mb-3">
+        <label for="Stock" class="form-label">Stock</label>
+        <input name="Stock" type="text" class="form-control" id="Stock" aria-describedby="emailHelp">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

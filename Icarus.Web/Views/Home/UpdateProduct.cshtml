@@ -1,0 +1,51 @@
+﻿
+@model Icarus.Model.Product.UpdateProductViewModel
+
+@using (Html.BeginForm("UpdateProduct", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.CategoryId)
+        @Html.TextBoxFor(x => x.CategoryId, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.CategoryId)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Iuser)
+        @Html.TextBoxFor(x => x.Iuser, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Iuser)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Name)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.DisplayName)
+        @Html.TextBoxFor(x => x.DisplayName, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.DisplayName)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Description)
+        @Html.TextBoxFor(x => x.Description, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Description)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Price)
+        @Html.TextBoxFor(x => x.Price, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Price)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Stock)
+        @Html.TextBoxFor(x => x.Stock, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Stock)</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}
