@@ -12,11 +12,12 @@ namespace Icarus.Service.Product
     public interface IProductService
     {
         public General<ProductViewModel> GetProducts();
+        public General<UpdateProductViewModel> GetById(int id);
         public General<ProductViewModel> SortProducts(string sortingParameter);
         public General<ProductViewModel> FilterProducts(string filterByName);
         public General<ProductViewModel> ProductPagination(int productByPage, int displayPageNo);
         public General<InsertProductViewModel> Insert(InsertProductViewModel newProduct);
-        public General<UpdateProductViewModel> Update(int id, UpdateProductViewModel product);
+        public General<UpdateProductViewModel> Update(UpdateProductViewModel product);
         public General<ProductViewModel> Delete(int id);
     }
 }

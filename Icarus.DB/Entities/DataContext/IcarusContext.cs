@@ -9,6 +9,7 @@ namespace Icarus.DB.Entities.DataContext
 {
     public partial class IcarusContext : DbContext
     {
+        // Scaffold-DbContext "Server=.;Database=Icarus;Trusted_Connection=True;" Microsoft.EntityFrameworkCore.SqlServer -OutputDir Entities -Contextdir Entities/DataContext -Context IcarusContext -Project Icarus.DB -StartUpProject Icarus.DB -NoPluralize -Force
         public IcarusContext()
         {
         }

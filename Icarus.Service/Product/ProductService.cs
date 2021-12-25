@@ -44,6 +44,32 @@ namespace Icarus.Service.Product
             return result;
         }
 
+        // Ürün listelemesini gerçekleştiren metot
+        public General<UpdateProductViewModel> GetById(int id)
+        {
+            var result = new General<UpdateProductViewModel>();
+
+            using (var context = new IcarusContext())
+            {
+                // eğer ürün aktif ve silinmemişse Id'sine göre listeliyoruz
+                var data = context.Product.
+                            SingleOrDefault(x => x.Id == id && x.IsActive && !x.IsDeleted);
+
+                // gelen veri varsa işlem başarılı yoksa belirttiğimiz mesaj dönüyor
+                if (data is not null)
+                {
+                    result.Entity = mapper.Map<UpdateProductViewModel>(data);
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    result.ExceptionMessage = "Herhangi bir ürün bulunamadı.";
+                }
+            }
+
+            return result;
+        }
+
         // Ürünlerin sayfalama işleminin gerçekleştirildiği metot
         // Parametre olarak sayfa başına ürün sayısı ve sayfa numarasını alıyor
         public General<ProductViewModel> ProductPagination(int productByPage, int displayPageNo)
@@ -171,9 +197,9 @@ namespace Icarus.Service.Product
                     // Eğer gelen modeldeki id veritabanındaki kullanıcılardan birinin id'si ise,
                     // kullanıcı login işlemini gerçekleştirmiş ve IsDeleted değeri false ise
                     // ekleme işlemini gerçekleştirebilecek yetkisi oluyor
-                    var isAuth = context.User.Any(x => x.Id == model.Iuser &&
-                                                               x.IsActive &&
-                                                               !x.IsDeleted);
+                    var isAuth = context.User.Any(x => x.IsActive && !x.IsDeleted);
+
+                    //x.Id == model.Iuser &&
 
                     // Kullanıcı yetkiliyse ekleme gerçekleşiyor değilse aşağıdaki mesajı dönüyor
                     if (isAuth)
@@ -200,7 +226,7 @@ namespace Icarus.Service.Product
             return result;
         }
         // Ürün güncelleme işlemini gerçekleştiren metot
-        public General<UpdateProductViewModel> Update(int id, UpdateProductViewModel product)
+        public General<UpdateProductViewModel> Update(UpdateProductViewModel product)
         {
             var result = new General<UpdateProductViewModel>();
 
@@ -209,7 +235,7 @@ namespace Icarus.Service.Product
                 // Güncelleme işlemini gerçekleştiren kişi
                 // daha önceden ürünü eklemiş kullanıcıysa yetkili konuma geliyor
                 var isAuth = context.Product.Any(x => x.Iuser == product.Iuser);
-                var updateProduct = context.Product.SingleOrDefault(i => i.Id == id);
+                var updateProduct = context.Product.SingleOrDefault(i => i.Id == product.Id);
 
                 // Kullanıcı yetkiliyse ürün güncelleniyor değilse mesaj dönüyor
                 if (isAuth)

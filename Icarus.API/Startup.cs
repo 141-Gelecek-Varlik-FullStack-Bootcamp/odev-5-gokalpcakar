@@ -1,5 +1,8 @@
 using AutoMapper;
+using Hangfire;
+using Hangfire.MemoryStorage;
 using Icarus.API.Infrastructure;
+using Icarus.API.Services;
 using Icarus.Service.Product;
 using Icarus.Service.User;
 using Microsoft.AspNetCore.Builder;
@@ -40,7 +43,21 @@ namespace Icarus.API
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProductService, ProductService>();
 
-            services.AddMemoryCache();
+            // In-Memory cache burada ekleniyordu
+            //services.AddMemoryCache();
+
+            // redis cache burada ekleniyor ve kullandýðýmýz server'ý giriyoruz
+            // kullandýðýmýz server = localhost'taki 6379 portu
+            services.AddStackExchangeRedisCache(options => options.Configuration = "localhost:6379");
+
+            services.AddHangfire(configuration =>
+                                configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                                .UseSimpleAssemblyNameTypeSerializer()
+                                .UseDefaultTypeSerializer()
+                                .UseMemoryStorage());
+
+            services.AddHangfireServer();
+            services.AddSingleton<IPrintWelcomeJob, PrintWelcomeJob>();
 
             services.AddScoped<LoginFilter>();
 
@@ -52,7 +69,11 @@ namespace Icarus.API
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app,
+                              IWebHostEnvironment env,
+                              IBackgroundJobClient backgroundJobClient,
+                              IRecurringJobManager recurringJobManager,
+                              IServiceProvider serviceProvider)
         {
             if (env.IsDevelopment())
             {
@@ -60,6 +81,22 @@ namespace Icarus.API
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "Icarus.API v1"));
             }
+
+            app.UseHangfireDashboard();
+
+            backgroundJobClient.Enqueue(() => serviceProvider.GetService<IPrintWelcomeJob>().PrintWelcome());
+
+            recurringJobManager.AddOrUpdate(
+                "Run every minute",
+                () => new PrintWelcomeJob().PrintWelcome(),
+                "* * * * *"
+                );
+            
+            recurringJobManager.AddOrUpdate(
+                 "Run every minute",
+                 () => serviceProvider.GetService<IPrintWelcomeJob>().CleanUserTable(),
+                 "* * * * *"
+                 );
 
             app.UseHttpsRedirection();
 

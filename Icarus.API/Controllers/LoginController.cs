@@ -3,7 +3,9 @@ using Icarus.Model;
 using Icarus.Model.User;
 using Icarus.Service.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 using System;
 
 namespace Icarus.API.Controllers
@@ -13,12 +15,13 @@ namespace Icarus.API.Controllers
     public class LoginController : ControllerBase
     {
 
-        private readonly IMemoryCache memoryCache;
+        //private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
         private readonly IUserService userService;
 
-        public LoginController(IMemoryCache _memoryCache, IUserService _userService)
+        public LoginController(IDistributedCache _distributedCache, IUserService _userService)
         {
-            memoryCache = _memoryCache;
+            distributedCache = _distributedCache;
             userService = _userService;
         }
 
@@ -26,6 +29,8 @@ namespace Icarus.API.Controllers
         // Sisteme giriş işleminin gerçekleştirildiği yer
         public General<bool> Login([FromBody] LoginViewModel loginUser)
         {
+            var cachedData = distributedCache.GetString("LoginUser" );
+
             General<bool> response = new() { Entity = false };
             General<UserViewModel> result = userService.Login(loginUser);
 
@@ -33,9 +38,19 @@ namespace Icarus.API.Controllers
             if (result.IsSuccess)
             {
                 // Cache'te böyle bir kullanıcı yoksa cache'e kullanıcı ekleniyor
-                if(!memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
+                //if(!memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
+                //{
+                //    memoryCache.Set("LoginUser", result.Entity);
+                //}
+
+                var cacheOptions = new DistributedCacheEntryOptions()
                 {
-                    memoryCache.Set("LoginUser", result.Entity);
+                    AbsoluteExpiration = DateTime.Now.AddMinutes(5)
+                };
+
+                if (string.IsNullOrEmpty(cachedData))
+                {
+                    distributedCache.SetString("LoginUser", JsonConvert.SerializeObject(result.Entity), cacheOptions);
                 }
 
                 // işlemin başarılı olması durumundaki geri dönüş değerlerini belirliyoruz

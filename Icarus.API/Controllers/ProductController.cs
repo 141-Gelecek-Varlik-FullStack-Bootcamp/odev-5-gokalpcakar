@@ -4,7 +4,9 @@ using Icarus.Model.Product;
 using Icarus.Service.Product;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using System.Collections.Generic;
 
 namespace Icarus.API.Controllers
 {
@@ -16,7 +18,9 @@ namespace Icarus.API.Controllers
     {
         // Burada servisi çağırıyoruz.
         private readonly IProductService productService;
-        public ProductController(IProductService _productService, IMemoryCache _memoryCache) : base(_memoryCache)
+        //, IMemoryCache _memoryCache
+        //: base(_memoryCache)
+        public ProductController(IProductService _productService, IDistributedCache _distributedCache) : base(_distributedCache) 
         {
             productService = _productService;
         }
@@ -63,9 +67,9 @@ namespace Icarus.API.Controllers
 
         // Ürün güncelleme metodunun servis katmanından çağırıldığı kısım
         [HttpPut("{id}")]
-        public General<UpdateProductViewModel> Update(int id, [FromBody] UpdateProductViewModel product)
+        public General<UpdateProductViewModel> Update([FromBody] UpdateProductViewModel product)
         {
-            return productService.Update(id, product);
+            return productService.Update(product);
         }
 
         // Ürün silme metodunun servis katmanından çağırıldığı kısım

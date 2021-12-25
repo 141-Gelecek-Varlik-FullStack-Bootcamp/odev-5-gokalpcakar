@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Icarus.API", "Icarus.API\Icarus.API.csproj", "{8E3BA8A1-D820-4207-AECC-713BCA832A24}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.API", "Icarus.API\Icarus.API.csproj", "{8E3BA8A1-D820-4207-AECC-713BCA832A24}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Icarus.Model", "Icarus.Model\Icarus.Model.csproj", "{ADF6CC6C-19BF-4F92-8B1F-C7DBE4CCC2C0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Model", "Icarus.Model\Icarus.Model.csproj", "{ADF6CC6C-19BF-4F92-8B1F-C7DBE4CCC2C0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Icarus.DB", "Icarus.DB\Icarus.DB.csproj", "{CC6FC418-2213-4968-A04F-7012F786D204}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.DB", "Icarus.DB\Icarus.DB.csproj", "{CC6FC418-2213-4968-A04F-7012F786D204}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Icarus.Service", "Icarus.Service\Icarus.Service.csproj", "{87C36E21-5913-4694-901E-B3903C8A98F2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Icarus.Service", "Icarus.Service\Icarus.Service.csproj", "{87C36E21-5913-4694-901E-B3903C8A98F2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

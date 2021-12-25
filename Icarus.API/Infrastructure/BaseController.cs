@@ -1,15 +1,18 @@
 ﻿using Icarus.Model.User;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
+using Newtonsoft.Json;
 
 namespace Icarus.API.Infrastructure
 {
     public class BaseController : ControllerBase
     {
-        private readonly IMemoryCache memoryCache;
-        public BaseController(IMemoryCache _memoryCache)
+        //private readonly IMemoryCache memoryCache;
+        private readonly IDistributedCache distributedCache;
+        public BaseController(IDistributedCache _distributedCache)
         {
-            memoryCache = _memoryCache;
+            distributedCache = _distributedCache;
         }
         // GetCurrentUser metodunu erişilebilir yapıyoruz
         public UserViewModel CurrentUser
@@ -23,11 +26,17 @@ namespace Icarus.API.Infrastructure
         // giriş yapmış kullanıcıyı dönüyoruz
         private UserViewModel GetCurrentUser()
         {
+            var cachedData = distributedCache.GetString("LoginUser");
             var response = new UserViewModel();
 
-            if(memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
+            //if(memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
+            //{
+            //    response = _loginUser;
+            //}
+
+            if (!string.IsNullOrEmpty(cachedData))
             {
-                response = _loginUser;
+                response = JsonConvert.DeserializeObject<UserViewModel>(cachedData);
             }
 
             return response;

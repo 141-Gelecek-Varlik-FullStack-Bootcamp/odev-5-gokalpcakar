@@ -33,6 +33,7 @@ namespace Icarus.Service.User
                 {
                     result.IsSuccess = true;
                     result.Entity = mapper.Map<UserViewModel>(data);
+                    result.SuccessfulMessage = "Giriş işlemi başarıyla gerçekleştirilmiştir";
                 }
             }
 
