@@ -2,22 +2,16 @@ using AutoMapper;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Icarus.API.Infrastructure;
-using Icarus.API.Services;
+using Icarus.API.Jobs;
 using Icarus.Service.Product;
 using Icarus.Service.User;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace Icarus.API
 {
@@ -50,16 +44,19 @@ namespace Icarus.API
             // kullandýðýmýz server = localhost'taki 6379 portu
             services.AddStackExchangeRedisCache(options => options.Configuration = "localhost:6379");
 
-            services.AddHangfire(configuration =>
-                                configuration.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
-                                .UseSimpleAssemblyNameTypeSerializer()
-                                .UseDefaultTypeSerializer()
-                                .UseMemoryStorage());
+            services.AddHangfire(config =>
+                        config.SetDataCompatibilityLevel(CompatibilityLevel.Version_170)
+                        .UseSimpleAssemblyNameTypeSerializer()
+                        .UseDefaultTypeSerializer()
+                        .UseMemoryStorage());
 
             services.AddHangfireServer();
+
             services.AddSingleton<IPrintWelcomeJob, PrintWelcomeJob>();
 
+            // Custom Filterlerin inject edildiði yer
             services.AddScoped<LoginFilter>();
+            services.AddScoped<AuthFilter>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
@@ -84,19 +81,19 @@ namespace Icarus.API
 
             app.UseHangfireDashboard();
 
-            backgroundJobClient.Enqueue(() => serviceProvider.GetService<IPrintWelcomeJob>().PrintWelcome());
-
-            recurringJobManager.AddOrUpdate(
-                "Run every minute",
-                () => new PrintWelcomeJob().PrintWelcome(),
-                "* * * * *"
-                );
-            
-            recurringJobManager.AddOrUpdate(
-                 "Run every minute",
-                 () => serviceProvider.GetService<IPrintWelcomeJob>().CleanUserTable(),
-                 "* * * * *"
-                 );
+            backgroundJobClient.Enqueue(() => Console.WriteLine("Enqueue job!!!"));
+            recurringJobManager.AddOrUpdate
+                                ("Only recurring job",
+                                 () => serviceProvider.GetService<IPrintWelcomeJob>().PrintWelcome(),
+                                 Cron.Minutely);
+            recurringJobManager.AddOrUpdate
+                                ("Only recurring job",
+                                 () => serviceProvider.GetService<IPrintWelcomeJob>().CleanUserTable(),
+                                 Cron.Minutely);
+            recurringJobManager.AddOrUpdate
+                                ("Only recurring job",
+                                 () => serviceProvider.GetService<IPrintWelcomeJob>().CleanProductTable(),
+                                 Cron.Minutely);
 
             app.UseHttpsRedirection();
 

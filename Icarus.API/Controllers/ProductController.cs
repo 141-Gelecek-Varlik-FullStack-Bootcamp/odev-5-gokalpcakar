@@ -1,4 +1,6 @@
 ﻿using Icarus.API.Infrastructure;
+using Icarus.DB.Entities;
+using Icarus.DB.Entities.DataContext;
 using Icarus.Model;
 using Icarus.Model.Product;
 using Icarus.Service.Product;
@@ -7,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Icarus.API.Controllers
 {
@@ -58,6 +61,8 @@ namespace Icarus.API.Controllers
 
         // Ürün ekleme metodunun servis katmanından çağırıldığı kısım
         [HttpPost]
+        // Eğer kullanıcı adminse silme işlemi gerçekleştirilecek
+        [ServiceFilter(typeof(AuthFilter))]
         public General<InsertProductViewModel> Insert([FromBody] InsertProductViewModel newProduct)
         {
             // ekleyen kullanıcı şuanda giriş yapmış kullanıcı olarak atanıyor
@@ -67,6 +72,8 @@ namespace Icarus.API.Controllers
 
         // Ürün güncelleme metodunun servis katmanından çağırıldığı kısım
         [HttpPut("{id}")]
+        // Eğer kullanıcı adminse silme işlemi gerçekleştirilecek
+        [ServiceFilter(typeof(AuthFilter))]
         public General<UpdateProductViewModel> Update([FromBody] UpdateProductViewModel product)
         {
             return productService.Update(product);
@@ -74,6 +81,8 @@ namespace Icarus.API.Controllers
 
         // Ürün silme metodunun servis katmanından çağırıldığı kısım
         [HttpDelete("{id}")]
+        // Eğer kullanıcı adminse silme işlemi gerçekleştirilecek
+        [ServiceFilter(typeof(AuthFilter))]
         public General<ProductViewModel> Delete(int id)
         {
             return productService.Delete(id);

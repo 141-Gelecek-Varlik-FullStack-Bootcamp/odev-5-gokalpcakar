@@ -25,6 +25,7 @@ namespace Icarus.DB.Entities
         public DateTime? Udate { get; set; }
         public int Iuser { get; set; }
         public int? Uuser { get; set; }
+        public bool IsAdmin { get; set; }
 
         public virtual ICollection<Category> Category { get; set; }
         public virtual ICollection<Product> Product { get; set; }

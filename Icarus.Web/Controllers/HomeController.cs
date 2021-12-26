@@ -13,6 +13,8 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.Results;
+using System.Net.Http.Json;
+using System.Net.Http;
 
 namespace Icarus.Web.Controllers
 {
@@ -98,12 +100,6 @@ namespace Icarus.Web.Controllers
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
                 }
             }
-            //var model = productService.Update(product);
-
-            //if (!model.IsSuccess)
-            //{
-            //    return View();
-            //}
 
             return View();
         }

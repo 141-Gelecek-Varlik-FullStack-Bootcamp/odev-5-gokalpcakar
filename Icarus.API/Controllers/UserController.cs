@@ -10,6 +10,7 @@ namespace Icarus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [ServiceFilter(typeof(AuthFilter))]
     public class UserController : ControllerBase
     {
         // Burada servisi çağırıyoruz
