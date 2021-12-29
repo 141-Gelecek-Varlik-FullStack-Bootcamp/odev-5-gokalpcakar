@@ -10,19 +10,18 @@ using Microsoft.Extensions.Caching.Distributed;
 using Microsoft.Extensions.Caching.Memory;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 
 namespace Icarus.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     // LoginFilter tüm controller'a uygulandı
-    [ServiceFilter(typeof(LoginFilter))]
+    //[ServiceFilter(typeof(LoginFilter))]
     public class ProductController : BaseController
     {
         // Burada servisi çağırıyoruz.
         private readonly IProductService productService;
-        //, IMemoryCache _memoryCache
-        //: base(_memoryCache)
         public ProductController(IProductService _productService, IDistributedCache _distributedCache) : base(_distributedCache) 
         {
             productService = _productService;
@@ -34,6 +33,12 @@ namespace Icarus.API.Controllers
         {
             return productService.GetProducts();
         }
+        //[HttpGet]
+        //public IActionResult GetProducts()
+        //{
+        //    var result = JsonSerializer.Serialize(productService.GetProducts());
+        //    return Ok(result);
+        //}
 
         // Sıralanmış ürünlerin listeleneceği metodun servis katmanından çağırıldığı kısım
         [HttpGet]

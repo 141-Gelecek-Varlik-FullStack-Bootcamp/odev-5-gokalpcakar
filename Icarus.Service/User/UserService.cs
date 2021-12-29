@@ -31,6 +31,7 @@ namespace Icarus.Service.User
                                                 x.Password == loginUser.Password);
                 if (data is not null)
                 {
+                    loginUser.IsAdmin = data.IsAdmin;
                     result.IsSuccess = true;
                     result.Entity = mapper.Map<UserViewModel>(data);
                     result.SuccessfulMessage = "Giriş işlemi başarıyla gerçekleştirilmiştir";
@@ -59,6 +60,32 @@ namespace Icarus.Service.User
                 else
                 {
                     result.ExceptionMessage = "Hiçbir kullanıcı bulunamadı.";
+                }
+            }
+
+            return result;
+        }
+
+        // Tek bir kullanıcı getirileceğinde kullanılan metot
+        public General<UserViewModel> GetById(int id)
+        {
+            var result = new General<UserViewModel>();
+
+            using (var context = new IcarusContext())
+            {
+                // eğer ürün aktif ve silinmemişse Id'sine göre listeliyoruz
+                var data = context.User.
+                            SingleOrDefault(x => x.Id == id && x.IsActive && !x.IsDeleted);
+
+                // gelen veri varsa işlem başarılı yoksa belirttiğimiz mesaj dönüyor
+                if (data is not null)
+                {
+                    result.Entity = mapper.Map<UserViewModel>(data);
+                    result.IsSuccess = true;
+                }
+                else
+                {
+                    result.ExceptionMessage = "Herhangi bir ürün bulunamadı.";
                 }
             }
 

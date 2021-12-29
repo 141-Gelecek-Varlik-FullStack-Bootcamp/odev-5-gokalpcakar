@@ -14,6 +14,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using FluentValidation.Results;
 using System.Net.Http.Json;
+using System.Text.Json;
+using Icarus.Model;
 using System.Net.Http;
 
 namespace Icarus.Web.Controllers
@@ -33,87 +35,33 @@ namespace Icarus.Web.Controllers
 
         public IActionResult Index()
         {
-            return View(productService.GetProducts().List);
-        }
-
-        public IActionResult Login()
-        {
+            //return View(productService.GetProducts().List);
             return View();
         }
+        //public IActionResult Index()
+        //{
+        //    using (var client = new HttpClient())
+        //    {
+        //        var uri = new Uri("https://localhost:5001/api/Product");
+        //        var responseTask = client.GetAsync(string.Format("https://localhost:5001/api/Product"));
+        //        responseTask.Wait();
+        //        var response = responseTask.Result;
+        //        if (response.IsSuccessStatusCode)
+        //        {
+        //            var readTask = response.Content.ReadAsStringAsync();
+        //            readTask.Wait();
+        //            var result = JsonSerializer.Deserialize<General<List<ProductViewModel>>>(readTask.Result);
+        //            ViewBag.ProductList = result.Entity;
+        //            return View();
+        //        }
+        //        else
+        //        {
+        //            ViewBag.StatusCode = response.StatusCode;
+        //        }
+        //    }
 
-        [HttpPost]
-        public IActionResult Login(LoginViewModel loginUser)
-        {
-            var model = userService.Login(loginUser);
-
-            if (!model.IsSuccess)
-            {
-                return View();
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult InsertProduct()
-        {
-            return View();
-        }
-
-        [HttpPost]
-        public IActionResult InsertProduct(InsertProductViewModel newProduct)
-        {
-            var model = productService.Insert(newProduct);
-
-            if (!model.IsSuccess)
-            {
-                return View();
-            }
-
-            return RedirectToAction("Index", "Home");
-        }
-
-        public IActionResult UpdateProduct(int id)
-        {
-            var model = productService.GetById(id);
-            return View(model.Entity);
-        }
-
-        [HttpPost]
-        public IActionResult UpdateProduct(UpdateProductViewModel product)
-        {
-            ProductValidator productValidator = new ProductValidator();
-            ValidationResult results = productValidator.Validate(product);
-
-            if (results.IsValid)
-            {
-                var model = productService.Update(product);
-
-                if (model.IsSuccess)
-                {
-                    return RedirectToAction("Index", "Home");
-                }
-            }
-            else
-            {
-                foreach (var item in results.Errors)
-                {
-                    ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
-                }
-            }
-
-            return View();
-        }
-
-        public IActionResult DeleteProduct(int id)
-        {
-            var model = productService.Delete(id);
-
-            if (!model.IsSuccess)
-            {
-                return RedirectToAction("Login", "Home");
-            }
-            return RedirectToAction("Index", "Home");
-        }
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {

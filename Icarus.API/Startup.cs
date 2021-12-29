@@ -2,6 +2,7 @@ using AutoMapper;
 using Hangfire;
 using Hangfire.MemoryStorage;
 using Icarus.API.Infrastructure;
+using Icarus.API.Infrastructure.DistCache;
 using Icarus.API.Jobs;
 using Icarus.Service.Product;
 using Icarus.Service.User;
@@ -36,6 +37,9 @@ namespace Icarus.API
             // User ve Product interface'lerinin alakalý class'lara inject edildiði kýsým
             services.AddTransient<IUserService, UserService>();
             services.AddTransient<IProductService, ProductService>();
+
+            // distrubed cache'i kullancaðýmýz sýnýfý inject ediyoruz
+            services.AddTransient<IDistCache, DistCache>();
 
             // In-Memory cache burada ekleniyordu
             //services.AddMemoryCache();
@@ -94,6 +98,8 @@ namespace Icarus.API
                                 ("Only recurring job",
                                  () => serviceProvider.GetService<IPrintWelcomeJob>().CleanProductTable(),
                                  Cron.Minutely);
+
+            app.UseCors(c => c.WithOrigins("https://localhost:5003").AllowAnyHeader().AllowAnyMethod());
 
             app.UseHttpsRedirection();
 

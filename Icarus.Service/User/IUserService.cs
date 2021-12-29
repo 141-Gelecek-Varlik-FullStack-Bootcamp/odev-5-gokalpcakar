@@ -13,6 +13,7 @@ namespace Icarus.Service.User
     {
         public General<UserViewModel> Login(LoginViewModel loginUser);
         public General<UserViewModel> GetUsers();
+        public General<UserViewModel> GetById(int id);
         public General<UserViewModel> Insert(UserViewModel newUser);
         public General<UserViewModel> Update(int id, UserViewModel user);
         public General<UserViewModel> Delete(int id);

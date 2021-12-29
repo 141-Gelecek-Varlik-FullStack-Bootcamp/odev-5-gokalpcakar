@@ -1,0 +1,39 @@
+﻿
+@model Icarus.Model.User.UserViewModel
+
+@using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
+{
+    @Html.HiddenFor(model => model.Id)
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Name)
+        @Html.TextBoxFor(x => x.Name, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Name)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Surname)
+        @Html.TextBoxFor(x => x.Surname, new { @class="form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Surname)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.UserName)
+        @Html.TextBoxFor(x => x.UserName, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.UserName)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Email)
+        @Html.TextBoxFor(x => x.Email, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Email)</p>
+    </div>
+
+    <div class="mb-3">
+        @Html.LabelFor(x => x.Password)
+        @Html.TextBoxFor(x => x.Password, new{ @class = "form-control" })
+        <p class="text-danger my-2">@Html.ValidationMessageFor(x => x.Password)</p>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

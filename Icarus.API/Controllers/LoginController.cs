@@ -37,12 +37,6 @@ namespace Icarus.API.Controllers
             // login işleminin başarılı olup olmadığı kontrol ediliyor
             if (result.IsSuccess)
             {
-                // Cache'te böyle bir kullanıcı yoksa cache'e kullanıcı ekleniyor
-                //if(!memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
-                //{
-                //    memoryCache.Set("LoginUser", result.Entity);
-                //}
-
                 var cacheOptions = new DistributedCacheEntryOptions()
                 {
                     AbsoluteExpiration = DateTime.Now.AddMinutes(5)

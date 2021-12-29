@@ -13,79 +13,135 @@
     ViewBag.Title = "Icarus";
 }
 
+<div class="mb-3 d-flex justify-content-end">
+    <a asp-controller="Home"
+       asp-action="InsertProduct"
+       class="btn btn-primary">
+        Yeni Ürün Ekle
+    </a>
+</div>
+
 <table class="table table-secondary table-bordered table-striped border-white">
+    <tr>
+        <th>Is Complete?</th>
+        <th>Name</th>
+        <th></th>
+        <th></th>
+    </tr>
+    <tbody id="todos"></tbody>
+</table>
+
+@section Scripts
+    {
+<script src="js/site.js" asp-append-version="true"></script>
+<script type="text/javascript">
+    getItems();
+</script>
+    }
+
+@*<table class="table table-secondary table-bordered table-striped border-white">
 
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.Id)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Name)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.DisplayName)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Description)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Price)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Stock)
-        </th>
-        <th>
-            <p>Güncelle</p>
-        </th>
-        <th>
-            <p>Sil</p>
-        </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Id)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Name)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.DisplayName)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Description)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Price)
+    </th>
+    <th>
+    @Html.DisplayNameFor(model => model.Stock)
+    </th>
+    <th>
+    <p>Güncelle</p>
+    </th>
+    <th>
+    <p>Sil</p>
+    </th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Id)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Name)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.DisplayName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Description)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-            </td>
-            <td>
-                <a asp-controller="Home"
-               asp-action="UpdateProduct"
-               asp-route-id="@item.Id"
-               class="btn btn-warning">
-                    Güncelle
-                </a>
-            </td>
-            <td>
-                <a asp-controller="Home"
-               asp-action="DeleteProduct"
-               asp-route-id="@item.Id"
-               class="btn btn-danger">
-                    Sil
-                </a>
-            </td>
-        </tr>
+    <tr>
+    <td>
+    @Html.DisplayFor(modelItem => item.Id)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Name)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.DisplayName)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Description)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Price)
+    </td>
+    <td>
+    @Html.DisplayFor(modelItem => item.Stock)
+    </td>
+    <td>
+    <a asp-controller="Home"
+    asp-action="UpdateProduct"
+    asp-route-id="@item.Id"
+    class="btn btn-warning">
+    Güncelle
+    </a>
+    </td>
+    <td>
+    <a asp-controller="Home"
+    asp-action="DeleteProduct"
+    asp-route-id="@item.Id"
+    class="btn btn-danger">
+    Sil
+    </a>
+    </td>
+    </tr>
     }
-</table>
+    </table>*@
 
-<a
-    asp-controller="Home"
-    asp-action="InsertProduct"
-    class="btn btn-primary">
-    Yeni Ürün
-</a>
+@*@using Icarus.Model.Product
+    @{
+    var Products = (List<Icarus.Model.Product.ProductViewModel>)ViewBag.ProductList;
+    ViewData["title"] = "Product List";
+    }
+
+    <body>
+    <h1>Product List</h1>
+    <br />
+    <form method="get">
+    <div>
+    <label for="searchString">Search Product:</label>
+    <input type="text" name="searchString" id="searchString">
+    <input type="submit" value="Search" />
+    </div>
+    </form>
+    <br />
+    @foreach (var product in Products)
+    {
+    <ul>
+    <li>
+    <p><b>Product: </b>@product.Name</p>
+    </li>
+    <li>
+    <p>Description:@product.Description</p>
+    </li>
+    <li>
+    <p>Stock Count:@product.Stock</p>
+    </li>
+    <li>
+    <p>Price:@product.Price</p>
+    </li>
+    </ul>
+    <br />
+    }
+    </body>*@

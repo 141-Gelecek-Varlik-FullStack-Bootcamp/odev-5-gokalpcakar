@@ -23,12 +23,8 @@ namespace Icarus.API.Infrastructure
         public void OnActionExecuting(ActionExecutingContext context)
         {
             var cachedData = distributedCache.GetString("LoginUser");
-            // Kullanıcı giriş yapmamış ise 401 durum koduyla aşağıdaki mesajı dönüyoruz
-            //if (!memoryCache.TryGetValue("LoginUser", out UserViewModel _loginUser))
-            //{
-            //    context.Result = new UnauthorizedObjectResult("Lütfen giriş yapınız");
-            //}
 
+            // Kullanıcı giriş yapmamış ise 401 durum koduyla aşağıdaki mesajı dönüyoruz
             if (string.IsNullOrEmpty(cachedData))
             {
                 context.Result = new UnauthorizedObjectResult("Lütfen giriş yapınız");

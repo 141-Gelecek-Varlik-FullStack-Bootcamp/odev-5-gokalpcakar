@@ -1,0 +1,31 @@
+﻿
+@using (Html.BeginForm("AddUser", "User", FormMethod.Post))
+{
+
+    <div class="mb-3">
+        <label for="Name" class="form-label">Name</label>
+        <input name="Name" type="text" class="form-control" id="Name">
+    </div>
+
+    <div class="mb-3">
+        <label for="Surname" class="form-label">Surname</label>
+        <input name="Surname" type="text" class="form-control" id="Surname">
+    </div>
+
+    <div class="mb-3">
+        <label for="UserName" class="form-label">UserName</label>
+        <input name="UserName" type="text" class="form-control" id="UserName">
+    </div>
+
+    <div class="mb-3">
+        <label for="Email" class="form-label">Email</label>
+        <input name="Email" type="text" class="form-control" id="Email">
+    </div>
+
+    <div class="mb-3">
+        <label for="Password" class="form-label">Password</label>
+        <input name="Password" type="text" class="form-control" id="Password">
+    </div>
+
+    <button type="submit" class="btn btn-primary">Submit</button>
+}

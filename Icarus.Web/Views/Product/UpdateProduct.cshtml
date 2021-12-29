@@ -1,7 +1,7 @@
 ﻿
 @model Icarus.Model.Product.UpdateProductViewModel
 
-@using (Html.BeginForm("UpdateProduct", "Home", FormMethod.Post))
+@using (Html.BeginForm("UpdateProduct", "Product", FormMethod.Post))
 {
     @Html.HiddenFor(model => model.Id)
 

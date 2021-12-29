@@ -44,7 +44,6 @@ namespace Icarus.Service.Product
             return result;
         }
 
-        // Ürün listelemesini gerçekleştiren metot
         public General<UpdateProductViewModel> GetById(int id)
         {
             var result = new General<UpdateProductViewModel>();
@@ -205,6 +204,7 @@ namespace Icarus.Service.Product
                     if (isAuth)
                     {
                         model.Idate = DateTime.Now;
+                        model.IsActive = true;
                         context.Product.Add(model);
                         context.SaveChanges();
 

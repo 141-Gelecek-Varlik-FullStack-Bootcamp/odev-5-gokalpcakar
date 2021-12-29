@@ -17,5 +17,7 @@ namespace Icarus.Model.User
         [Required(ErrorMessage = "Şifre alanı boş bırakılamaz!")]
         [StringLength(50, MinimumLength = 3, ErrorMessage = "Şifre 3 ile 50 karakter arasında olmalıdır.")]
         public string Password { get; set; }
+
+        public bool IsAdmin { get; set; }
     }
 }

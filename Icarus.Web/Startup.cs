@@ -1,5 +1,6 @@
 using AutoMapper;
 using Icarus.API.Infrastructure;
+using Icarus.API.Infrastructure.DistCache;
 using Icarus.Service.Product;
 using Icarus.Service.User;
 using Microsoft.AspNetCore.Builder;
@@ -29,6 +30,8 @@ namespace Icarus.Web
         {
             services.AddControllersWithViews();
 
+            services.AddHttpClient();
+
             var mappingConfig = new MapperConfiguration(mc =>
             {
                 mc.AddProfile(new MappingProfile());
@@ -39,6 +42,11 @@ namespace Icarus.Web
 
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IUserService, UserService>();
+
+            // distrubed cache'i kullancaðýmýz sýnýfý inject ediyoruz
+            services.AddTransient<IDistCache, DistCache>();
+
+            services.AddSingleton<AuthFilter>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -55,6 +63,8 @@ namespace Icarus.Web
                 app.UseHsts();
             }
             app.UseHttpsRedirection();
+
+            app.UseDefaultFiles();
             app.UseStaticFiles();
 
             app.UseRouting();
@@ -65,8 +75,8 @@ namespace Icarus.Web
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-            });
+                    pattern: "{controller=Product}/{action=List}/{id?}");
+            }); 
         }
     }
 }
