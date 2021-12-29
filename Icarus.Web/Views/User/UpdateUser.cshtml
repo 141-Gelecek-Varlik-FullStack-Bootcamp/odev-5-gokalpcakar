@@ -1,6 +1,8 @@
 ﻿
 @model Icarus.Model.User.UserViewModel
 
+<h1 class="text-center mb-3">Kullanıcı Güncelleme</h1> 
+
 @using (Html.BeginForm("UpdateUser", "User", FormMethod.Post))
 {
     @Html.HiddenFor(model => model.Id)

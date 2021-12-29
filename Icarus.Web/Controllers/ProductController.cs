@@ -1,4 +1,5 @@
 ﻿using FluentValidation.Results;
+using Icarus.API.Infrastructure.DistCache;
 using Icarus.Model.Product;
 using Icarus.Service.Product;
 using Icarus.Service.ValidationRules;
@@ -9,12 +10,16 @@ namespace Icarus.Web.Controllers
     public class ProductController : Controller
     {
         private readonly IProductService productService;
-        public ProductController(IProductService _productService)
+        private readonly IDistCache distCache;
+        public ProductController(IProductService _productService, IDistCache _distCache)
         {
             productService = _productService;
+            distCache = _distCache;
         }
         public IActionResult List()
         {
+            var cachedData = distCache.GetCurrentUser();
+            ViewBag.IsAdmin = cachedData.IsAdmin;
             return View(productService.GetProducts().List);
         }
         public IActionResult AddProduct()
