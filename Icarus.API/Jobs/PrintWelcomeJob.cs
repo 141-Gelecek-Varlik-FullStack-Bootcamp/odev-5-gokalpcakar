@@ -13,12 +13,13 @@ namespace Icarus.API.Jobs
                 var users = context.User.Where(u => u.IsActive && !u.IsDeleted && u.Idate < DateTime.Now.AddDays(-1)).ToList();
                 foreach (var user in users)
                 {
-                    //sendWelcomeMail(user.Email);
+                    // mail mesajı yazılıyor
                     Console.WriteLine($"Welcome to the Icarus, {user.UserName}.");
                 }
             }
         }
 
+        // bir kullanıcı aktif değil ve silinmişse saatlik kontrol ediliyor ve siliniyor
         public void CleanUserTable()
         {
             using (var context = new IcarusContext())
@@ -35,6 +36,7 @@ namespace Icarus.API.Jobs
             }
         }
 
+        // bir ürün aktif değil ve silinmişse saatlik kontrol ediliyor ve siliniyor
         public void CleanProductTable()
         {
             using (var context = new IcarusContext())

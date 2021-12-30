@@ -72,7 +72,6 @@ namespace Icarus.API
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app,
                               IWebHostEnvironment env,
-                              IBackgroundJobClient backgroundJobClient,
                               IRecurringJobManager recurringJobManager,
                               IServiceProvider serviceProvider)
         {
@@ -85,19 +84,19 @@ namespace Icarus.API
 
             app.UseHangfireDashboard();
 
-            backgroundJobClient.Enqueue(() => Console.WriteLine("Enqueue job!!!"));
+            // IPrintWelcomeJob içerisindeki 3 farklý job çalýþtýrýlýyor
             recurringJobManager.AddOrUpdate
                                 ("Only recurring job",
                                  () => serviceProvider.GetService<IPrintWelcomeJob>().PrintWelcome(),
-                                 Cron.Minutely);
+                                 Cron.Daily);
             recurringJobManager.AddOrUpdate
                                 ("Only recurring job",
                                  () => serviceProvider.GetService<IPrintWelcomeJob>().CleanUserTable(),
-                                 Cron.Minutely);
+                                 Cron.Hourly);
             recurringJobManager.AddOrUpdate
                                 ("Only recurring job",
                                  () => serviceProvider.GetService<IPrintWelcomeJob>().CleanProductTable(),
-                                 Cron.Minutely);
+                                 Cron.Hourly);
 
             app.UseCors(c => c.WithOrigins("https://localhost:5003").AllowAnyHeader().AllowAnyMethod());
 
