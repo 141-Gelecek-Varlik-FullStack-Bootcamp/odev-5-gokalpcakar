@@ -18,19 +18,25 @@ namespace Icarus.Web.Controllers
         }
         public IActionResult List()
         {
+            // ürünler listeleniyor ve o view'a cache'te kullanıcının admin bilgisi gönderiliyor
             var cachedData = distCache.GetCurrentUser();
             ViewBag.IsAdmin = cachedData.IsAdmin;
             return View(productService.GetProducts().List);
         }
+
+        // Ürün ekleme ekranına gidilyor
         public IActionResult AddProduct()
         {
             return View();
         }
+
         [HttpPost]
         public IActionResult AddProduct(InsertProductViewModel newProduct)
         {
             var model = productService.Insert(newProduct);
 
+            // eğer ürün ekleme işlemi başarılıysa ürünler listeleniyor
+            // değilse ürünler tekrardan girilsin diye ürün ekleme sayfası açılıyor
             if (!model.IsSuccess)
             {
                 return View();
@@ -41,6 +47,7 @@ namespace Icarus.Web.Controllers
 
         public IActionResult UpdateProduct(int id)
         {
+            // güncelleme view'ına ilgili ürün ViewModel'i gönderiliyor
             var model = productService.GetById(id);
             return View(model.Entity);
         }
@@ -48,6 +55,7 @@ namespace Icarus.Web.Controllers
         [HttpPost]
         public IActionResult UpdateProduct(UpdateProductViewModel product)
         {
+            // View'da validasyon ile ilgili işlem yapabilmek için bu kısmı kullanıyoruz
             ProductValidator productValidator = new ProductValidator();
             ValidationResult results = productValidator.Validate(product);
 
@@ -57,11 +65,13 @@ namespace Icarus.Web.Controllers
 
                 if (model.IsSuccess)
                 {
+                    // güncelleme işlemi başarılıysa ürünler listeleniyor
                     return RedirectToAction("List", "Product");
                 }
             }
             else
             {
+                // validasyon işlemi geçerli değilse bu kısım devreye giriyor
                 foreach (var item in results.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
@@ -73,12 +83,7 @@ namespace Icarus.Web.Controllers
 
         public IActionResult DeleteProduct(int id)
         {
-            var model = productService.Delete(id);
-
-            if (!model.IsSuccess)
-            {
-                return RedirectToAction("Login", "User");
-            }
+            productService.Delete(id);
             return RedirectToAction("List", "Product");
         }
     }

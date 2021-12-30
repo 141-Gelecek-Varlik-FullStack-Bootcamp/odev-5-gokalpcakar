@@ -1,17 +1,21 @@
-# Gelecek Varlik FullStack Bootcamp Dorduncu Odevi
+# Gelecek Varlik FullStack Bootcamp Besinci Odevi
 
-### Bu ödevde n-tier mimarisi kullanilmis olup, icerisinde CRUD islemlerinin yani sira siralama, filtreleme ve sayfalama islemleri gerceklestirilmistir .
+### Bu odevde n-tier mimarisi kullanilmis olup, icerisinde CRUD islemlerinin yapilmistir. Web katmaninda projenin arayuzleri bulunmaktadir.
 
 -------------------------------------------------------
 
-- API, Model, DB ve Service katmanlari kullanildi.
+<p align="center">
+    <img src="images/ekran.gif"/>
+</p>
+
+
+- API, Model, DB, Service ve Web katmanlari kullanildi.
 - Extension Model katmaninda olusturuldu.
-- CRUD islemleri kullanici ve urun icin gerceklestirildi.
-- Kullanici icin login, getusers, insert, update, delete islemleri gerceklestirildi.
-- Urunler icin getproducts, insert, update, delete islemleri gerceklestirildi.
-- Product icin islemlerine gore 3 farkli viewmodel, User icin iki farkli model olusturuldu.
-- Product islemlerinde kullanicinin giris yapip yapmadigi kontrol ediliyor.
-- Product icin siralama(sorting), filtreleme ve sayfalama(pagination) islemleri gerceklestirildi.
+- API projesinin Infrastructure class'i icerisinde filterlar ve redis cache ile alakali kodlar yazildi
+- Background job'lar uygulandi ve bunlar API projesinde yazildi
+- Service katmani icerisinde Validation islemlerini uygulayan ValidationRules adli bir class olusturuldu
+- Web katmani icerisinde yetki kontrolu gerceklestirildi ve bu yetki kontrolune gore kullanici islemlerine erisim saglaniyor
+- Normal kullanici sadece urunleri listeleyebiliyor ve guncelleyebiliyor. Normal kullanici bunun disindaki islemleri yapamiyor.
 
 ## License
 [MIT](https://www.mit.edu/)

@@ -5,18 +5,15 @@
     var isAdmin = ViewBag.IsAdmin;
 }
 
-<h1 class="text-center mb-3">Ürün Listesi</h1>  
+<h1 class="text-center mb-3">Ürün Listesi</h1>
 
-@if (isAdmin)
-{
-    <div class="mb-3 d-flex justify-content-end">
-        <a asp-controller="Product"
+<div class="mb-3 d-flex justify-content-end">
+    <a asp-controller="Product"
        asp-action="AddProduct"
        class="btn btn-primary">
-            Yeni Ürün Ekle
-        </a>
-    </div>
-}
+        Yeni Ürün Ekle
+    </a>
+</div>
 
 <table class="table table-secondary table-bordered table-striped border-white">
 
@@ -36,11 +33,11 @@
         <th>
             @Html.DisplayNameFor(model => model.Stock)
         </th>
+        <th>
+            <p>Güncelle</p>
+        </th>
         @if (isAdmin)
         {
-            <th>
-                <p>Güncelle</p>
-            </th>
             <th>
                 <p>Sil</p>
             </th>
@@ -67,16 +64,16 @@
             <td>
                 @Html.DisplayFor(modelItem => item.Stock)
             </td>
-            @if (isAdmin)
-            {
-                <td>
-                    <a asp-controller="Product"
+            <td>
+                <a asp-controller="Product"
                asp-action="UpdateProduct"
                asp-route-id="@item.Id"
                class="btn btn-warning">
-                        Güncelle
-                    </a>
-                </td>
+                    Güncelle
+                </a>
+            </td>
+            @if (isAdmin)
+            {
                 <td>
                     <a asp-controller="Product"
                asp-action="DeleteProduct"

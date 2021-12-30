@@ -27,6 +27,7 @@ namespace Icarus.Web.Controllers
         {
             var model = userService.Login(loginUser);
 
+            // login işlemi başarısızsa tekrardan login olması isteniyor
             if (!model.IsSuccess)
             {
                 return View();
@@ -35,6 +36,8 @@ namespace Icarus.Web.Controllers
             distCache.SetCache(loginUser);
             var cachedData = distCache.GetCurrentUser();
 
+            // eğer cache'teki kullanıcı adminse kullanıcıyla alakalı işlemleri gerçekleştirebiliyor
+            // admin değilse kullanıcı işlemlerini yapabileceği listeleme ekranına gidemiyor
             if (cachedData.IsAdmin)
             {
                 return RedirectToAction("List", "User");
@@ -86,6 +89,7 @@ namespace Icarus.Web.Controllers
         [HttpPost]
         public IActionResult UpdateUser(UserViewModel product)
         {
+            // Kullanıcı güncellerken validasyon işlemine bakılıyor
             UserValidator productValidator = new UserValidator();
             ValidationResult results = productValidator.Validate(product);
 
@@ -100,6 +104,7 @@ namespace Icarus.Web.Controllers
             }
             else
             {
+                // eğer validasyon işlemi geçerli değilse bu kısım devreye giriyor
                 foreach (var item in results.Errors)
                 {
                     ModelState.AddModelError(item.PropertyName, item.ErrorMessage);
@@ -111,12 +116,7 @@ namespace Icarus.Web.Controllers
 
         public IActionResult DeleteUser(int id)
         {
-            var model = userService.Delete(id);
-
-            if (!model.IsSuccess)
-            {
-                return RedirectToAction("Login", "User");
-            }
+            userService.Delete(id);
             return RedirectToAction("List", "User");
         }
     }
